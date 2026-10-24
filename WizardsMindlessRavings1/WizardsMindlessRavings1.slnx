@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="WizardsMindlessRavings1.AppHost/WizardsMindlessRavings1.AppHost.csproj" />
+  <Project Path="WizardsMindlessRavings1.ServiceDefaults/WizardsMindlessRavings1.ServiceDefaults.csproj" />
+  <Project Path="WizardsMindlessRavings1/WizardsMindlessRavings1.csproj" />
+</Solution>
