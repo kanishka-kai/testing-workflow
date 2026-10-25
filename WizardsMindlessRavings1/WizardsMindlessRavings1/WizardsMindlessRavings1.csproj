@@ -16,4 +16,9 @@
     <ProjectReference Include="..\WizardsMindlessRavings1.ServiceDefaults\WizardsMindlessRavings1.ServiceDefaults.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\Authorization\" />
+    <Folder Include="Models\ViewModels\" />
+  </ItemGroup>
+
 </Project>
