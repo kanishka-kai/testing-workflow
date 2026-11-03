@@ -1,0 +1,101 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using WizardsMindlessRavings1.DataAccess;
+using WizardsMindlessRavings1.Models.ViewModels.Resource;
+
+namespace WizardsMindlessRavings1.Controllers
+{
+    public class ResourceHandlerController : Controller
+    {
+        private readonly IResourceRepository _resourceRepository;
+
+        public ResourceHandlerController(IResourceRepository resourceRepository)
+        {
+            _resourceRepository = resourceRepository;
+        }
+
+        [HttpGet]
+        public IActionResult Index()
+        {
+            var all = _resourceRepository.GetAll();
+            //Map the resources to view models
+            var model = all.Select(r => new ResourceViewModel
+            {
+                Id = r.Id,
+                Name = r.Name,
+                Description = r.Description,
+                Type = r.Type
+            }).ToList();
+
+            return View(model);
+        }
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Create(ResourceViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var resource = _resourceRepository.Create(model);
+
+            return RedirectToAction("Index", "Resource", new { id = resource.Id });
+
+            //espens code wasnt showing index 4 and jumped to index 5 when using Create, this is copilot suggestion but isnt showing what resource was created. just adds it in
+            //return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet]
+        public ActionResult Edit(int id)
+        {
+            var resource = _resourceRepository.GetById(id);
+            if (resource == null)
+            {
+                return NotFound();
+            }
+            var model = new ResourceViewModel
+            {
+                Id = resource.Id,
+                Name = resource.Name,
+                Description = resource.Description,
+                Type = resource.Type
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult Edit(ResourceViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            if (model.Id == null)
+            {
+                return BadRequest();
+            }
+            var success = _resourceRepository.Update(model.Id.Value, model);
+            if (!success)
+            {
+                return NotFound();
+            }
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public ActionResult Delete(int id)
+        {
+            var success = _resourceRepository.Delete(id);
+            if (!success)
+            {
+                return NotFound();
+            }
+            return RedirectToAction("Index");
+        }
+    }
+}

@@ -1,9 +1,13 @@
+using WizardsMindlessRavings1.DataAccess;
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddSingleton<IResourceRepository, ResourceRepository>();
 
 var app = builder.Build();
 
