@@ -18,7 +18,7 @@
 
   <ItemGroup>
     <Folder Include="Models\Authorization\" />
-    <Folder Include="Models\ViewModels\" />
+    <Folder Include="Models\ViewModels\Account\" />
   </ItemGroup>
 
 </Project>
